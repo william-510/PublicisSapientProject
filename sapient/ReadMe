@@ -1,0 +1,23 @@
+Pour changer les valeurs d'input il faut modifier le fichier suivant : 
+./src/main/resources/input.txt
+
+Le fichier doit avoir une forme similaire à :
+5 5
+1 2 N
+GAGAGAGAA
+3 3 E
+AADAADADDA
+
+La premiere ligne correspond aux dimensions du champs.
+Les tondeuses sont identifiées sur deux lignes. La premiere correspond à la position (X,Y) et à l'orientation (N,E,W,S) initial de la tondeuse,
+la seconde ligne correspond au chemin qu'elle doit parcourir dans le champs.
+exemple : 
+1 2 N      -> X Y Orientation
+GAGAGAGAA  -> chemin à parcourir
+
+Les lettres N,E,W et S font référence aux points cardinaux : North, East, West, South 
+Les lettres A, D, G correspondent à l'action opéré par la tondeuse selon l'équivalence suivante :
+A = Avance
+D = Rotation de 90° à Droite
+G = Rotation de 90° à Gauche
+ 
