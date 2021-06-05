@@ -60,9 +60,11 @@ class LawnmowerServiceTest {
 			} else if (values.length == 3) {
 				tempLawnmower = new Lawnmower(Integer.parseInt(values[0]), Integer.parseInt(values[1]),
 						values[2].charAt(0));
-				i++;
+			} else if (!values.toString().contains(" ")) {
 				tempLawnmower.setWay(lines.get(i));
 				lawnmowerList.add(tempLawnmower);
+			} else {
+				System.out.println("Erreur : problème détecté dans le formatage du fichier");
 			}
 		}
 	}

@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import sapient.lawnmower.entity.Lawnmower;
@@ -35,13 +34,17 @@ public class LawnmowerServiceImpl implements LawnmowerService {
 				lines.add(line);
 			}
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.getMessage());
+			logger.severe(e.getMessage());
 		} finally {
 			try {
-				bfr.close();
-				file.close();
-			} catch (IOException | NullPointerException e) {
-				logger.log(Level.SEVERE, e.getMessage());
+				if (bfr != null) {
+					bfr.close();
+				}
+				if (file != null) {
+					file.close();
+				}
+			} catch (IOException e) {
+				logger.severe(e.getMessage());
 			}
 		}
 	}
@@ -57,16 +60,19 @@ public class LawnmowerServiceImpl implements LawnmowerService {
 			values = lines.get(i).split(" ");
 			// get field size
 			if (values.length == 2) {
-				setHeightField(Integer.parseInt(values[0]));
-				setWeightField(Integer.parseInt(values[1]));
-
+				heightField = Integer.parseInt(values[0]);
+				weightField = Integer.parseInt(values[1]);
 				// get each Lawnmower
 			} else if (values.length == 3) {
 				tempLawnmower = new Lawnmower(Integer.parseInt(values[0]), Integer.parseInt(values[1]),
 						values[2].charAt(0));
-				i++;
-				tempLawnmower.setWay(lines.get(i));
-				lawnmowerList.add(tempLawnmower);
+			} else if (!values.toString().contains(" ")) {
+				if (tempLawnmower != null) {
+					tempLawnmower.setWay(lines.get(i));
+					lawnmowerList.add(tempLawnmower);
+				}
+			} else {
+				logger.severe("Erreur : problème détecté dans le formatage du fichier");
 			}
 		}
 	}
@@ -125,7 +131,7 @@ public class LawnmowerServiceImpl implements LawnmowerService {
 			}
 			break;
 		default:
-			logger.log(Level.SEVERE, "Erreur : Orientation inconnue");
+			logger.severe("Erreur : Orientation inconnue");
 			break;
 		}
 
@@ -164,7 +170,7 @@ public class LawnmowerServiceImpl implements LawnmowerService {
 			}
 			break;
 		default:
-			logger.log(Level.SEVERE, "Erreur : Orientation inconnue");
+			logger.severe("Erreur : Orientation inconnue");
 			break;
 		}
 		return lawnmower;
